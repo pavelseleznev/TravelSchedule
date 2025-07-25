@@ -7,18 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D41509A22E2E269F00C41798 /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = D41509A12E2E269F00C41798 /* openapi.yaml */; };
 		D427F0D22E0D18F900F0AB14 /* TravelScheduleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D427F0D12E0D18F900F0AB14 /* TravelScheduleApp.swift */; };
 		D427F0D42E0D18F900F0AB14 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D427F0D32E0D18F900F0AB14 /* ContentView.swift */; };
 		D427F0D62E0D18FB00F0AB14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D427F0D52E0D18FB00F0AB14 /* Assets.xcassets */; };
 		D427F0D92E0D18FB00F0AB14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D427F0D82E0D18FB00F0AB14 /* Preview Assets.xcassets */; };
+		D465D1672E1B8D9900A84B89 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = D465D1662E1B8D9900A84B89 /* OpenAPIRuntime */; };
+		D465D16A2E1B8DBA00A84B89 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = D465D1692E1B8DBA00A84B89 /* OpenAPIURLSession */; };
+		D465D1752E1B938900A84B89 /* NearestStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465D1742E1B938900A84B89 /* NearestStationsService.swift */; };
+		D48FFE9B2E2E31380021FF7D /* CopyrightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFE9A2E2E31380021FF7D /* CopyrightService.swift */; };
+		D48FFE9E2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFE9D2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift */; };
+		D48FFEA22E2FC2E10021FF7D /* ScheduleStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFEA12E2FC2E10021FF7D /* ScheduleStationsService.swift */; };
+		D48FFEA92E30A97D0021FF7D /* ListRouteStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFEA82E30A97C0021FF7D /* ListRouteStationsService.swift */; };
+		D48FFEAC2E30EC560021FF7D /* NearestSettlementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFEAB2E30EC560021FF7D /* NearestSettlementService.swift */; };
+		D48FFEAF2E30FE500021FF7D /* CarrierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFEAE2E30FE500021FF7D /* CarrierService.swift */; };
+		D48FFEB32E310B610021FF7D /* AllStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FFEB22E310B610021FF7D /* AllStationsService.swift */; };
+		D4A8DE1B2E2AE7A7007178FC /* openapi-generator-config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = D4A8DE1A2E2AE7A7007178FC /* openapi-generator-config.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D41509A12E2E269F00C41798 /* openapi.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
 		D427F0CE2E0D18F900F0AB14 /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D427F0D12E0D18F900F0AB14 /* TravelScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleApp.swift; sourceTree = "<group>"; };
 		D427F0D32E0D18F900F0AB14 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D427F0D52E0D18FB00F0AB14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D427F0D82E0D18FB00F0AB14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D465D1742E1B938900A84B89 /* NearestStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestStationsService.swift; sourceTree = "<group>"; };
+		D48FFE9A2E2E31380021FF7D /* CopyrightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightService.swift; sourceTree = "<group>"; };
+		D48FFE9D2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBetweenStationsService.swift; sourceTree = "<group>"; };
+		D48FFEA12E2FC2E10021FF7D /* ScheduleStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleStationsService.swift; sourceTree = "<group>"; };
+		D48FFEA82E30A97C0021FF7D /* ListRouteStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouteStationsService.swift; sourceTree = "<group>"; };
+		D48FFEAB2E30EC560021FF7D /* NearestSettlementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestSettlementService.swift; sourceTree = "<group>"; };
+		D48FFEAE2E30FE500021FF7D /* CarrierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierService.swift; sourceTree = "<group>"; };
+		D48FFEB22E310B610021FF7D /* AllStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStationsService.swift; sourceTree = "<group>"; };
+		D4A8DE1A2E2AE7A7007178FC /* openapi-generator-config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = "openapi-generator-config.yaml"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D465D1672E1B8D9900A84B89 /* OpenAPIRuntime in Frameworks */,
+				D465D16A2E1B8DBA00A84B89 /* OpenAPIURLSession in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,8 +77,10 @@
 			children = (
 				D427F0D12E0D18F900F0AB14 /* TravelScheduleApp.swift */,
 				D427F0D32E0D18F900F0AB14 /* ContentView.swift */,
-				D427F0D52E0D18FB00F0AB14 /* Assets.xcassets */,
+				D465D1732E1B937200A84B89 /* Services */,
+				D465D16D2E1B8EBC00A84B89 /* Resources */,
 				D427F0D72E0D18FB00F0AB14 /* Preview Content */,
+				D427F0D52E0D18FB00F0AB14 /* Assets.xcassets */,
 			);
 			path = TravelSchedule;
 			sourceTree = "<group>";
@@ -65,6 +91,30 @@
 				D427F0D82E0D18FB00F0AB14 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D465D16D2E1B8EBC00A84B89 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D41509A12E2E269F00C41798 /* openapi.yaml */,
+				D4A8DE1A2E2AE7A7007178FC /* openapi-generator-config.yaml */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D465D1732E1B937200A84B89 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D48FFE9D2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift */,
+				D48FFEA12E2FC2E10021FF7D /* ScheduleStationsService.swift */,
+				D48FFEA82E30A97C0021FF7D /* ListRouteStationsService.swift */,
+				D465D1742E1B938900A84B89 /* NearestStationsService.swift */,
+				D48FFEAB2E30EC560021FF7D /* NearestSettlementService.swift */,
+				D48FFEAE2E30FE500021FF7D /* CarrierService.swift */,
+				D48FFEB22E310B610021FF7D /* AllStationsService.swift */,
+				D48FFE9A2E2E31380021FF7D /* CopyrightService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,8 +131,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				D465D16C2E1B8E5600A84B89 /* PBXTargetDependency */,
 			);
 			name = TravelSchedule;
+			packageProductDependencies = (
+				D465D1662E1B8D9900A84B89 /* OpenAPIRuntime */,
+				D465D1692E1B8DBA00A84B89 /* OpenAPIURLSession */,
+			);
 			productName = TravelSchedule;
 			productReference = D427F0CE2E0D18F900F0AB14 /* TravelSchedule.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +166,11 @@
 				Base,
 			);
 			mainGroup = D427F0C52E0D18F900F0AB14;
+			packageReferences = (
+				D465D1622E1B8D6000A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				D465D1652E1B8D9900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				D465D1682E1B8DB900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+			);
 			productRefGroup = D427F0CF2E0D18F900F0AB14 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -126,6 +186,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D427F0D92E0D18FB00F0AB14 /* Preview Assets.xcassets in Resources */,
+				D41509A22E2E269F00C41798 /* openapi.yaml in Resources */,
+				D4A8DE1B2E2AE7A7007178FC /* openapi-generator-config.yaml in Resources */,
 				D427F0D62E0D18FB00F0AB14 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,12 +199,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D48FFEAF2E30FE500021FF7D /* CarrierService.swift in Sources */,
 				D427F0D42E0D18F900F0AB14 /* ContentView.swift in Sources */,
+				D48FFEB32E310B610021FF7D /* AllStationsService.swift in Sources */,
+				D48FFEAC2E30EC560021FF7D /* NearestSettlementService.swift in Sources */,
+				D48FFEA92E30A97D0021FF7D /* ListRouteStationsService.swift in Sources */,
+				D465D1752E1B938900A84B89 /* NearestStationsService.swift in Sources */,
 				D427F0D22E0D18F900F0AB14 /* TravelScheduleApp.swift in Sources */,
+				D48FFE9B2E2E31380021FF7D /* CopyrightService.swift in Sources */,
+				D48FFE9E2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift in Sources */,
+				D48FFEA22E2FC2E10021FF7D /* ScheduleStationsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D465D16C2E1B8E5600A84B89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = D465D16B2E1B8E5600A84B89 /* OpenAPIGenerator */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D427F0DA2E0D18FB00F0AB14 /* Debug */ = {
@@ -197,7 +274,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -278,8 +355,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -289,7 +366,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -307,8 +384,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,7 +395,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -344,6 +421,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D465D1622E1B8D6000A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
+			};
+		};
+		D465D1652E1B8D9900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
+		D465D1682E1B8DB900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D465D1662E1B8D9900A84B89 /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D465D1652E1B8D9900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		D465D1692E1B8DBA00A84B89 /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D465D1682E1B8DB900A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+		D465D16B2E1B8E5600A84B89 /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D465D1622E1B8D6000A84B89 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D427F0C62E0D18F900F0AB14 /* Project object */;
 }
