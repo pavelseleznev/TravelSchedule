@@ -1,5 +1,2 @@
-build/
-*.xcuserstate
-*.xcworkspace
-*.xcuserdata/
-
+TravelSchedule.xcodeproj/xcuserdata/
+TravelSchedule.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
