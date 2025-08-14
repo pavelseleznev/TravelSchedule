@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashScreen: View {
     var body: some View {
-        Image("Splash")
+        Image(.splash)
             .resizable()
             .scaledToFill()
             .ignoresSafeArea()

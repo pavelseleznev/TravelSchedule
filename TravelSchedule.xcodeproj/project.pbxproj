@@ -35,6 +35,7 @@
 		D4A65E222E3891AA004E24B1 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A65E212E3891AA004E24B1 /* SplashScreen.swift */; };
 		D4A65E252E3891D1004E24B1 /* RouteSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A65E242E3891D1004E24B1 /* RouteSelectionView.swift */; };
 		D4A8DE1B2E2AE7A7007178FC /* openapi-generator-config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = D4A8DE1A2E2AE7A7007178FC /* openapi-generator-config.yaml */; };
+		D4E21F012E4CC407008BEB2E /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E21F002E4CC407008BEB2E /* SettingsKeys.swift */; };
 		D4FD8C252E3C86C20064C9A2 /* StoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD8C242E3C86C20064C9A2 /* StoriesCell.swift */; };
 		D4FD8C2F2E3CD2F40064C9A2 /* CityRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD8C2E2E3CD2F40064C9A2 /* CityRowView.swift */; };
 		D4FD8C322E3CD3170064C9A2 /* CityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD8C312E3CD3170064C9A2 /* CityViewModel.swift */; };
@@ -80,6 +81,7 @@
 		D4A65E212E3891AA004E24B1 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		D4A65E242E3891D1004E24B1 /* RouteSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSelectionView.swift; sourceTree = "<group>"; };
 		D4A8DE1A2E2AE7A7007178FC /* openapi-generator-config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = "openapi-generator-config.yaml"; sourceTree = "<group>"; };
+		D4E21F002E4CC407008BEB2E /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
 		D4FD8C242E3C86C20064C9A2 /* StoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesCell.swift; sourceTree = "<group>"; };
 		D4FD8C2E2E3CD2F40064C9A2 /* CityRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityRowView.swift; sourceTree = "<group>"; };
 		D4FD8C312E3CD3170064C9A2 /* CityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewModel.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				D4A65E242E3891D1004E24B1 /* RouteSelectionView.swift */,
 				D48ABEC52E4B9AE600F1680B /* NavigationController.swift */,
 				D450464A2E4C53910090DAAE /* Destination.swift */,
+				D4E21F002E4CC407008BEB2E /* SettingsKeys.swift */,
 			);
 			path = AppEntry;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				D45046442E4C52290090DAAE /* CarrierRoute.swift in Sources */,
 				D4FD8C322E3CD3170064C9A2 /* CityViewModel.swift in Sources */,
 				D48ABEC32E4B9AC100F1680B /* SettingsDestination.swift in Sources */,
+				D4E21F012E4CC407008BEB2E /* SettingsKeys.swift in Sources */,
 				D4FD8C5F2E3D61500064C9A2 /* ErrorView.swift in Sources */,
 				D427F0D42E0D18F900F0AB14 /* ContentView.swift in Sources */,
 				D48FFEB32E310B610021FF7D /* AllStationsService.swift in Sources */,

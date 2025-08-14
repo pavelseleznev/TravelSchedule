@@ -8,6 +8,6 @@
 import Foundation
 
 struct RailwayStation: Identifiable, Hashable {
-    var id = UUID()
-    var name: String
+    let id = UUID()
+    let name: String
 }

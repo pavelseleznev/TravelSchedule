@@ -8,13 +8,13 @@
 import Foundation
 
 struct CarrierRoute: Identifiable, Hashable {
-    var id = UUID()
-    var carrierName: String
-    var date: String
-    var departureTime: String
-    var arrivalTime: String
-    var duration: String
-    var withTransfer: Bool
-    var carrierImage: String
-    var note: String?
+    let id = UUID()
+    let carrierName: String
+    let date: String
+    let departureTime: String
+    let arrivalTime: String
+    let duration: String
+    let withTransfer: Bool
+    let carrierImage: String
+    let note: String?
 }

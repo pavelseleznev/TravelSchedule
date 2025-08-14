@@ -12,7 +12,7 @@ final class CarrierRouteViewModel: ObservableObject {
     @Published var selectedPeriods: Set<TimePeriod> = [] {
         didSet { applyFilters() }
     }
-    @Published var showWithTransfer: Bool? = nil {
+    @Published var showWithTransfer: Bool? {
         didSet { applyFilters() }
     }
     @Published var filteredRoutes: [CarrierRoute] = []
@@ -20,12 +20,12 @@ final class CarrierRouteViewModel: ObservableObject {
     init() {
         self.routes = [
             CarrierRoute(carrierName: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: true, carrierImage: "RusRailwaysBrandIcon", note: "С пересадкой в Костроме"),
-            CarrierRoute(carrierName: "ФГК", date: "15 января", departureTime: "01:15", arrivalTime: "09:00", duration: "9 часов", withTransfer: false, carrierImage: "FGKBrandIcon"),
-            CarrierRoute(carrierName: "Урал логистика", date: "16 января", departureTime: "12:30", arrivalTime: "21:00", duration: "9 часов", withTransfer: false, carrierImage: "UralLogisticsBrandIcon"),
+            CarrierRoute(carrierName: "ФГК", date: "15 января", departureTime: "01:15", arrivalTime: "09:00", duration: "9 часов", withTransfer: false, carrierImage: "FGKBrandIcon", note: nil),
+            CarrierRoute(carrierName: "Урал логистика", date: "16 января", departureTime: "12:30", arrivalTime: "21:00", duration: "9 часов", withTransfer: false, carrierImage: "UralLogisticsBrandIcon", note: nil),
             CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: true, carrierImage: "RusRailwaysBrandIcon", note: "С пересадкой в Костроме"),
-            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon"),
-            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon"),
-            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon")
+            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon", note: nil),
+            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon", note: nil),
+            CarrierRoute(carrierName: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", duration: "20 часов", withTransfer: false, carrierImage: "RusRailwaysBrandIcon", note: nil)
         ]
         self.filteredRoutes = routes
     }

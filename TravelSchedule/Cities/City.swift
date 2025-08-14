@@ -8,6 +8,6 @@
 import Foundation
 
 struct City: Identifiable, Hashable {
-    var id = UUID()
-    var cityName: String
+    let id = UUID()
+    let cityName: String
 }
