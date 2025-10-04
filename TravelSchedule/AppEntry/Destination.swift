@@ -12,4 +12,5 @@ enum Destination: Hashable {
     case stations(city: City, isSelectingFrom: Bool)
     case carriers(fromCity: City, fromStation: RailwayStation, toCity: City, toStation: RailwayStation)
     case filters(fromCity: City, fromStation: RailwayStation, toCity: City, toStation: RailwayStation)
+    case carrierDetails(route: CarrierRoute)
 }
