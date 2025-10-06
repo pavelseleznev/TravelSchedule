@@ -17,4 +17,6 @@ struct CarrierRoute: Identifiable, Hashable {
     let withTransfer: Bool
     let carrierImage: String
     let note: String?
+    let email: String?
+    let phone: String?
 }

@@ -69,5 +69,8 @@ struct CarriersRowView: View {
         duration: "20 часов",
         withTransfer: true,
         carrierImage: "RusRailwaysBrandIcon",
-        note: "С пересадкой в Костроме"))
+        note: "С пересадкой в Костроме",
+        email: "i.lozgkina@yandex.ru",
+        phone: "+7 (904) 329-27-71"
+    ))
 }

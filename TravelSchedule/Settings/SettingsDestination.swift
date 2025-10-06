@@ -10,4 +10,5 @@ import Foundation
 enum SettingsDestination: Hashable {
     case noInternet
     case serverError
+    case agreement(isDarkMode: Bool)
 }

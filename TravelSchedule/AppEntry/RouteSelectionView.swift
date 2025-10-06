@@ -15,7 +15,7 @@ struct RouteSelectionView: View {
     @Binding var toCity: City?
     @Binding var toStation: RailwayStation?
     @Binding var navigationPath: NavigationPath
-    @State private var viewModel = StoriesViewModel()
+    @StateObject private var viewModel = StoriesViewModel()
     @ObservedObject var carrierViewModel: CarrierRouteViewModel
     
     // MARK: - Computed Properties
@@ -46,8 +46,9 @@ struct RouteSelectionView: View {
         VStack(spacing: 44) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 12) {
-                    ForEach(viewModel.stories) { story in
+                    ForEach(viewModel.story) { story in
                         StoriesCell(stories: story)
+                            .environmentObject(viewModel)
                     }
                 }
             }
@@ -153,6 +154,9 @@ struct RouteSelectionView: View {
                 .accessibilityHidden(true)
         }
         .padding(.top, 24)
+        .fullScreenCover(isPresented: $viewModel.showStoryView) {
+            StoryView(viewModel: viewModel)
+        }
         .accessibilityIdentifier("routeSelectionContent")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarTitleDisplayMode(.inline)

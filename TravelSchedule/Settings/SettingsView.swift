@@ -8,99 +8,73 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // MARK: - Environment & AppStorage
-    @Environment(\.colorScheme) private var colorScheme
     
-    @State private var showNoInternet = false
-    @State private var showServerError = false
+    // MARK: - Binding
+    @Binding var navigationPath: NavigationPath
     
+    // MARK: - AppStorage
     @AppStorage(SettingsKeys.Appearance.isDarkMode) private var isDarkMode = false
-    @AppStorage(SettingsKeys.Appearance.useSystemAppearance) private var useSystemAppearance = true
     @AppStorage(SettingsKeys.Appearance.userHasSetDarkMode) private var userHasSetDarkMode = false
     
     // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            Toggle("Тёмная тема", isOn: $isDarkMode)
+                .padding(.horizontal, 16)
+                .onChange(of: isDarkMode) {
+                    userHasSetDarkMode = true
+                }
+                .tint(Color.blueUniversal)
+                .accessibilityHint(Text("Переключает тёмную тему приложения"))
+                .accessibilityIdentifier("toggleDarkMode")
+            
+            Button(action: {
+                navigationPath.append(SettingsDestination.agreement(isDarkMode: isDarkMode))
+            }) {
+                HStack {
+                    Text("Пользовательское соглашение")
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(.systemBackground).opacity(0.2))
+                        .cornerRadius(8)
+                    Spacer()
+                    Image(systemName: "chevron.forward")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 10.91, height: 18.82)
+                        .foregroundStyle(.blackDayNight)
+                        .frame(width: 44, height: 44)
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
+            .accessibilityHint(Text("Открыть пользовательское соглашение"))
+            .accessibilityLabel("Пользовательское соглашение")
+            .accessibilityAddTraits(.isButton)
+            .padding(.trailing, 8)
+            
             Spacer()
             
-            VStack(alignment: .leading, spacing: 8) {
-                Toggle("Use System Appearance", isOn: $useSystemAppearance)
-                    .padding(.horizontal, 16)
-                    .onChange(of: useSystemAppearance) { _, newValue in
-                        userHasSetDarkMode = !newValue
-                        if newValue {
-                            // Keep isDarkMode in sync with current system scheme
-                            isDarkMode = (colorScheme == .dark)
-                        }
-                    }
-                    .accessibilityHint(Text("Включите, чтобы использовать светлую или тёмную тему системы"))
-                    .accessibilityIdentifier("toggleUseSystemAppearance")
-                
-                Toggle("Dark Mode", isOn: $isDarkMode)
-                    .padding(.horizontal, 16)
-                    .disabled(useSystemAppearance)
-                    .onChange(of: isDarkMode) {
-                        if !useSystemAppearance { userHasSetDarkMode = true }
-                    }
-                    .onChange(of: colorScheme, initial: true) { _, newScheme in
-                        if useSystemAppearance { isDarkMode = (newScheme == .dark) }
-                    }
-                    .accessibilityHint(Text("Переключает тёмную тему приложения"))
-                    .accessibilityIdentifier("toggleDarkMode")
+            VStack(spacing: 16) {
+                Text("Приложение использует API «Яндекс.Расписания»")
+                    .font(.system(size: 12, weight: .regular))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                Text("Версия 1.0 (beta)")
+                    .font(.system(size: 12, weight: .regular))
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
-            
-            SettingsButton(title: "Show 'No Internet connection' view") {
-                showNoInternet = true
-            }
-            
-            SettingsButton(title: "Show 'Server Error' view") {
-                showServerError = true
-            }
-            
-            Spacer()
+        }
+        .safeAreaInset(edge: .top) {
+            Color.clear.frame(height: 18)
+        }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 24)
         }
         .navigationTitle("Settings")
         .toolbar(.visible, for: .tabBar)
-        .fullScreenCover(isPresented: $showNoInternet) {
-            ZStack {
-                ErrorView(errorType: .noInternet)
-                    .overlay(alignment: .topLeading) {
-                        Button {
-                            showNoInternet = false
-                        } label: {
-                            Label("", systemImage: "chevron.left")
-                                .labelStyle(.titleAndIcon)
-                                .foregroundStyle(.blackDayNight)
-                        }
-                        .padding()
-                        .position(x: -50, y: 1)
-                        .accessibilityHint(Text("Закрыть экран ошибки и вернуться к настройкам"))
-                        .accessibilityIdentifier("backFromNoInternet")
-                    }
-            }
-        }
-        .fullScreenCover(isPresented: $showServerError) {
-            ZStack {
-                ErrorView(errorType: .serverError)
-                    .overlay(alignment: .topLeading) {
-                        Button {
-                            showServerError = false
-                        } label: {
-                            Label("", systemImage: "chevron.left")
-                                .labelStyle(.titleAndIcon)
-                                .foregroundStyle(.blackDayNight)
-                        }
-                        .padding()
-                        .position(x: -50, y: 1)
-                        .accessibilityHint(Text("Закрыть экран ошибки и вернуться к настройкам"))
-                        .accessibilityIdentifier("backFromServerError")
-                    }
-            }
-        }
     }
 }
 
 #Preview {
-    SettingsView()
-        .preferredColorScheme(UserDefaults.standard.bool(forKey: "isDarkMode") ? .dark : .light)
+    SettingsView(navigationPath: .constant(NavigationPath()))
 }

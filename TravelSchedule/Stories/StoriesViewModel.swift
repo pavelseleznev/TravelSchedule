@@ -5,18 +5,116 @@
 //  Created by Pavel Seleznev on 8/1/25.
 //
 
-import Foundation
+import SwiftUI
+import Combine
 
-@Observable final class StoriesViewModel {
-    private(set) var stories: [Stories]
-    private(set) var showStoryView: Bool = false
+final class StoriesViewModel: ObservableObject {
     
+    // MARK: - Published Properties
+    @Published var story: [Stories]
+    @Published var showStoryView: Bool = false
+    @Published var currentStoryIndex: Int = 0
+    @Published var currentImageIndex: Int = 0
+    @Published var progress: CGFloat = 0.0
+    @Published private var viewedStories: Set<UUID> = []
+    
+    // MARK: - Timer Properties
+    private var timer: Timer.TimerPublisher = Timer.publish(every: 0.05, on: .main, in: .common)
+    private var cancellable: AnyCancellable?
+    private let imageDuration: TimeInterval = 10.0
+    
+    // MARK: - Initialization
     init() {
-        self.stories = [
-            Stories(previewImage: "TheLocomotiveEngineerPreview", bigImage: "TheLocomotiveEngineerBig"),
-            Stories(previewImage: "ModernSentinelsPreview", bigImage: "ModernSentinelsBig"),
-            Stories(previewImage: "JourneyThroughTheJunglePreview", bigImage: "JourneyThroughTheJungleBig"),
-            Stories(previewImage: "QuietJourneyPreview", bigImage: "QuietJourneyBig"),
+        self.story = [
+            Stories(previewImage: "TheLocomotiveEngineerPreview", images: ["TheLocomotiveEngineerBig", "SilentVigilBig"]),
+            Stories(previewImage: "ModernSentinelsPreview", images: ["ModernSentinelsBig", "TheOfficerGazeBig"]),
+            Stories(previewImage: "TheWeightOfSilencePreview", images: ["TheWeightOfSilenceBig", "ChasingTheIronHorseBig"]),
+            Stories(previewImage: "SilentJourneyDayPreview", images: ["SilentJourneyDayBig", "SilentJourneyNightBig"]),
+            Stories(previewImage: "JourneyThroughTheFrostedPeaksPreview", images: ["JourneyThroughTheFrostedPeaksBig", "WinterJourneyTheSteamExpressBig"]),
+            Stories(previewImage: "JourneyThroughTheJunglePreview", images: ["JourneyThroughTheJungleBig", "VibrantTrainStationSceneBig"]),
+            Stories(previewImage: "HarvestOfGenerationsPreview", images: ["HarvestOfGenerationsBig", "TheGreatPumpkinParadeBig"]),
+            Stories(previewImage: "MelodiesOnTheMovePreview", images: ["MelodiesOnTheMoveBig", "MelodiesOnTheMoveContinueBig"]),
+            Stories(previewImage: "QuietCompanionshipPreview", images: ["QuietCompanionshipBig", "QuietMomentsInTransitBig"])
         ]
+    }
+    
+    // MARK: - Timer Control
+    func startTimer() {
+        stopTimer()
+        timer = Timer.publish(every: 0.05, on: .main, in: .common)
+        cancellable = timer
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                withAnimation(.linear(duration: 0.05)) {
+                    self.progress += 0.05 / self.imageDuration
+                    if self.progress >= 1.0 {
+                        self.switchToNextStory()
+                    }
+                }
+            }
+    }
+    
+    func stopTimer() {
+        cancellable?.cancel()
+        withAnimation(.linear) {
+            progress = 0.0
+        }
+    }
+    
+    // MARK: - Story Navigation
+    func switchToNextStory() {
+        withAnimation(.linear) {
+            progress = 0.0
+        }
+        if currentImageIndex < story[currentStoryIndex].images.count - 1 {
+            currentImageIndex += 1
+            viewedStories.insert(story[currentStoryIndex].id)
+        } else if currentStoryIndex < story.count - 1 {
+            viewedStories.insert(story[currentStoryIndex].id)
+            currentStoryIndex += 1
+            currentImageIndex = 0
+            viewedStories.insert(story[currentStoryIndex].id)
+        } else {
+            viewedStories.insert(story[currentStoryIndex].id)
+            currentStoryIndex = 0
+            currentImageIndex = 0
+            stopTimer()
+            showStoryView = false
+        }
+    }
+    
+    func switchToPreviousStory() {
+        withAnimation(.linear) {
+            progress = 0.0
+        }
+        if currentImageIndex > 0 {
+            currentImageIndex -= 1
+            viewedStories.insert(story[currentStoryIndex].id)
+        } else if currentStoryIndex > 0 {
+            currentStoryIndex -= 1
+            currentImageIndex = story[currentStoryIndex].images.count - 1
+            viewedStories.insert(story[currentStoryIndex].id)
+        } else {
+            currentStoryIndex = 0
+            currentImageIndex = 0
+            stopTimer()
+            showStoryView = false
+        }
+    }
+    
+    // MARK: - Selection & Viewed State
+    func selectStory(at index: Int) {
+        currentStoryIndex = index
+        currentImageIndex = 0
+        withAnimation(.linear) {
+            progress = 0.0
+        }
+        viewedStories.insert(story[currentStoryIndex].id)
+        showStoryView = true
+    }
+    
+    func isStoryViewed(_ story: Stories) -> Bool {
+        viewedStories.contains(story.id)
     }
 }

@@ -53,9 +53,13 @@ struct CarriersListView: View {
                         if !viewModel.filteredRoutes.isEmpty {
                             VStack(spacing: 0) {
                                 ForEach(viewModel.filteredRoutes) { route in
-                                    CarriersRowView(route: route)
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 4)
+                                    Button(action: {
+                                        navigationPath.append(Destination.carrierDetails(route: route))
+                                    }) {
+                                        CarriersRowView(route: route)
+                                            .padding(.horizontal)
+                                            .padding(.vertical, 4)
+                                    }
                                 }
                             }
                         } else {

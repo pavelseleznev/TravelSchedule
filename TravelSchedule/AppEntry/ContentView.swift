@@ -44,7 +44,7 @@ struct ContentView: View {
                     }
                     .tag(0)
                     .accessibilityIdentifier("tab_schedule")
-                    SettingsView()
+                    SettingsView(navigationPath: $navigationPath)
                         .tabItem {
                             Label("", image: selectedTabIndex == 1 ? "SettingsActive" : "SettingsNotActive").accessibilityLabel("Настройки")
                         }
@@ -98,6 +98,23 @@ struct ContentView: View {
                         navigationPath: $navigationPath
                     )
                     .toolbar(.hidden, for: .tabBar)
+                case .carrierDetails(let route):
+                    CarrierDetailsView(route: route, navigationPath: $navigationPath
+                    )
+                    .toolbar(.hidden, for: .tabBar)
+                }
+            }
+            .navigationDestination(for: SettingsDestination.self) { destination in
+                switch destination {
+                case .agreement(let isDarkMode):
+                    AgreementView(isDarkMode: isDarkMode, navigationPath: $navigationPath)
+                        .toolbar(.hidden, for: .tabBar)
+                case .noInternet:
+                    Text("No internet")
+                        .toolbar(.hidden, for: .tabBar)
+                case .serverError:
+                    Text("Server error")
+                        .toolbar(.hidden, for: .tabBar)
                 }
             }
         }
