@@ -20,6 +20,7 @@
 		D45046472E4C52A60090DAAE /* RailwayStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45046462E4C52A60090DAAE /* RailwayStation.swift */; };
 		D45046492E4C52B50090DAAE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45046482E4C52B50090DAAE /* City.swift */; };
 		D450464B2E4C53910090DAAE /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450464A2E4C53910090DAAE /* Destination.swift */; };
+		D4646FFB2E936C4200063224 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4646FFA2E936C4100063224 /* Coordinator.swift */; };
 		D465D1672E1B8D9900A84B89 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = D465D1662E1B8D9900A84B89 /* OpenAPIRuntime */; };
 		D465D16A2E1B8DBA00A84B89 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = D465D1692E1B8DBA00A84B89 /* OpenAPIURLSession */; };
 		D465D1752E1B938900A84B89 /* NearestStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465D1742E1B938900A84B89 /* NearestStationsService.swift */; };
@@ -73,6 +74,7 @@
 		D45046462E4C52A60090DAAE /* RailwayStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RailwayStation.swift; sourceTree = "<group>"; };
 		D45046482E4C52B50090DAAE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		D450464A2E4C53910090DAAE /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
+		D4646FFA2E936C4100063224 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		D465D1742E1B938900A84B89 /* NearestStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestStationsService.swift; sourceTree = "<group>"; };
 		D47844982E3A2E1700D93D42 /* CitySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectionView.swift; sourceTree = "<group>"; };
 		D47E7CBA2E5F4A4F0083F3FE /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				D4FD8C722E3D63A80064C9A2 /* SettingsView.swift */,
 				D4F108202E7BF3BB007B59EE /* AgreementView.swift */,
 				D42E7D422E8ED60900975E35 /* WebAgreementView.swift */,
+				D4646FFA2E936C4100063224 /* Coordinator.swift */,
 				D441AEC12E901EF600443542 /* NetworkMonitor.swift */,
 				D48ABEC22E4B9AC100F1680B /* SettingsDestination.swift */,
 			);
@@ -430,6 +433,7 @@
 				D47E7CBB2E5F4A4F0083F3FE /* StoryView.swift in Sources */,
 				D48FFE9B2E2E31380021FF7D /* CopyrightService.swift in Sources */,
 				D4FD8C422E3D43B30064C9A2 /* StationRowView.swift in Sources */,
+				D4646FFB2E936C4200063224 /* Coordinator.swift in Sources */,
 				D48FFE9E2E2E4EDA0021FF7D /* ScheduleBetweenStationsService.swift in Sources */,
 				D48ABEC62E4B9AE600F1680B /* NavigationController.swift in Sources */,
 				D4F108212E7BF3BF007B59EE /* AgreementView.swift in Sources */,
