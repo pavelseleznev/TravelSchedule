@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-struct FiltersView: View {
+struct FilterView: View {
     
-    // MARK: - Environment, ViewModel, Properties & Binding
-    @ObservedObject var viewModel: CarrierRouteViewModel
+    // MARK: - Inputs
     let fromCity: City
     let fromStation: RailwayStation
     let toCity: City
     let toStation: RailwayStation
     @Binding var navigationPath: NavigationPath
-    @State private var showWithTransfer: Bool?
-    @State private var tempSelectedPeriods: Set<TimePeriod> = []
-    @State private var tempShowWithTransfer: Bool?
+    
+    // MARK: - Environment
+    @Environment(CarrierListViewModel.self) private var routes
+    @Environment(FilterViewModel.self) private var filterModel
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
     var body: some View {
+        @Bindable var model = filterModel
+        
         VStack(alignment: .leading, spacing: 16) {
             ZStack {
                 HStack {
-                    Button(action: {
-                        dismiss()
-                    }) {
+                    Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .resizable()
                             .scaledToFit()
@@ -43,6 +43,7 @@ struct FiltersView: View {
             .padding(.horizontal, 8)
             .padding(.top, 11)
         }
+        
         VStack(alignment: .leading, spacing: 16) {
             Text("Время отправления")
                 .font(.system(size: 24, weight: .bold))
@@ -51,63 +52,55 @@ struct FiltersView: View {
             
             ForEach(TimePeriod.allCases, id: \.self) { period in
                 HStack {
-                    Text(period.rawValue)
+                    Text(period.localized)
                         .font(.system(size: 17, weight: .regular))
                         .foregroundStyle(.blackDayNight)
                     Spacer()
-                    Button(action: {
-                        if tempSelectedPeriods.contains(period) {
-                            tempSelectedPeriods.remove(period)
-                        } else {
-                            tempSelectedPeriods.insert(period)
-                        }
-                    }) { Image(systemName: tempSelectedPeriods.contains(period) ? "checkmark.square.fill" : "square")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(Color(.blackDayNight))
-                            .accessibilityHidden(true)
+                    Button(action: { model.toggle(period) }) {
+                        Image(systemName: model.tempSelectedPeriods.contains(period)
+                              ? "checkmark.square.fill"
+                              : "square")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color(.blackDayNight))
+                        .accessibilityHidden(true)
                     }
                 }
                 .frame(height: 60)
                 .padding(.trailing, 2)
                 .contentShape(Rectangle())
-                .onTapGesture {
-                    if tempSelectedPeriods.contains(period) {
-                        tempSelectedPeriods.remove(period)
-                    } else {
-                        tempSelectedPeriods.insert(period)
-                    }
-                }
+                .onTapGesture { model.toggle(period) }
                 .accessibilityElement(children: .combine)
-                .accessibilityLabel(Text(period.rawValue))
-                .accessibilityValue(Text(tempSelectedPeriods.contains(period) ? "выбрано" : "не выбрано"))
-                .accessibilityHint(Text(tempSelectedPeriods.contains(period) ? "Дважды коснитесь, чтобы убрать фильтр" : "Дважды коснитесь, чтобы выбрать фильтр"))
-                .accessibilityAddTraits(tempSelectedPeriods.contains(period) ? .isSelected : [])
-                .accessibilityAction {
-                    if tempSelectedPeriods.contains(period) {
-                        tempSelectedPeriods.remove(period)
-                    } else {
-                        tempSelectedPeriods.insert(period)
-                    }
-                }
+                .accessibilityLabel(Text(period.localized))
+                .accessibilityValue(Text(model.tempSelectedPeriods.contains(period)
+                                         ? "выбрано"
+                                         : "не выбрано"))
+                .accessibilityHint(Text(model.tempSelectedPeriods.contains(period)
+                                        ? "Дважды коснитесь, чтобы убрать фильтр"
+                                        : "Дважды коснитесь, чтобы выбрать фильтр"))
+                .accessibilityAddTraits(model.tempSelectedPeriods.contains(period)
+                                        ? .isSelected
+                                        : [])
+                .accessibilityAction { model.toggle(period) }
             }
+            
             Text("Показывать варианты с пересадками")
                 .font(.system(size: 24, weight: .bold))
                 .padding(.top, 16)
                 .accessibilityAddTraits(.isHeader)
+            
             HStack {
                 Text("Да")
                     .font(.system(size: 17, weight: .regular))
                     .foregroundStyle(.blackDayNight)
                 Spacer()
-                Button(action: { tempShowWithTransfer = true }) {
+                Button(action: { model.setShowWithTransfer(true) }) {
                     ZStack {
                         Circle()
                             .stroke(lineWidth: 2)
                             .frame(width: 20, height: 20)
-                        if tempShowWithTransfer == true {
-                            Circle()
-                                .frame(width: 10, height: 10)
+                        if model.tempShowWithTransfer == true {
+                            Circle().frame(width: 10, height: 10)
                         }
                     }
                     .foregroundStyle(.blackDayNight)
@@ -117,28 +110,30 @@ struct FiltersView: View {
             .frame(height: 60)
             .padding(.trailing, 2)
             .contentShape(Rectangle())
-            .onTapGesture { tempShowWithTransfer = true }
+            .onTapGesture { model.setShowWithTransfer(true) }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(Text("Показывать варианты с пересадками: Да"))
-            .accessibilityValue(Text(tempShowWithTransfer == true ? "выбрано" : "не выбрано"))
+            .accessibilityValue(Text(model.tempShowWithTransfer == true
+                                     ? "выбрано"
+                                     : "не выбрано"))
             .accessibilityHint(Text("Дважды коснитесь, чтобы выбрать вариант 'Да'"))
-            .accessibilityAddTraits(tempShowWithTransfer == true ? .isSelected : [])
-            .accessibilityAction { tempShowWithTransfer = true }
+            .accessibilityAddTraits(model.tempShowWithTransfer == true
+                                    ? .isSelected
+                                    : [])
+            .accessibilityAction { model.setShowWithTransfer(true) }
+            
             HStack {
                 Text("Нет")
                     .font(.system(size: 17, weight: .regular))
                     .foregroundStyle(.blackDayNight)
                 Spacer()
-                Button(action: {
-                    tempShowWithTransfer = false
-                }) {
+                Button(action: { model.setShowWithTransfer(false) }) {
                     ZStack {
                         Circle()
                             .stroke(lineWidth: 2)
                             .frame(width: 20, height: 20)
-                        if tempShowWithTransfer == false {
-                            Circle()
-                                .frame(width: 10, height: 10)
+                        if model.tempShowWithTransfer == false {
+                            Circle().frame(width: 10, height: 10)
                         }
                     }
                     .foregroundStyle(.blackDayNight)
@@ -150,18 +145,23 @@ struct FiltersView: View {
             .frame(height: 60)
             .padding(.trailing, 2)
             .contentShape(Rectangle())
-            .onTapGesture { tempShowWithTransfer = false }
+            .onTapGesture { model.setShowWithTransfer(false) }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(Text("Показывать варианты с пересадками: Нет"))
-            .accessibilityValue(Text(tempShowWithTransfer == false ? "выбрано" : "не выбрано"))
+            .accessibilityValue(Text(model.tempShowWithTransfer == false
+                                     ? "выбрано"
+                                     : "не выбрано"))
             .accessibilityHint(Text("Дважды коснитесь, чтобы выбрать вариант 'Нет'"))
-            .accessibilityAddTraits(tempShowWithTransfer == false ? .isSelected : [])
-            .accessibilityAction { tempShowWithTransfer = false }
+            .accessibilityAddTraits(model.tempShowWithTransfer == false
+                                    ? .isSelected
+                                    : [])
+            .accessibilityAction { model.setShowWithTransfer(false) }
+            
             Spacer()
-            if !tempSelectedPeriods.isEmpty || tempShowWithTransfer != nil {
+            
+            if model.shouldShowApplyButton {
                 Button(action: {
-                    viewModel.selectedPeriods = tempSelectedPeriods
-                    viewModel.showWithTransfer = tempShowWithTransfer
+                    model.apply(using: routes)
                     navigationPath.removeLast()
                 }) {
                     Text("Применить")
@@ -183,12 +183,13 @@ struct FiltersView: View {
 }
 
 #Preview {
-    FiltersView(
-        viewModel: CarrierRouteViewModel(),
+    FilterView(
         fromCity: City(cityName: "Москва"),
         fromStation: RailwayStation(name: "Киевский вокзал"),
         toCity: City(cityName: "Санкт-Петербург"),
         toStation: RailwayStation(name: "Московский вокзал"),
         navigationPath: .constant(NavigationPath())
     )
+    .environment(CarrierListViewModel())
+    .environment(FilterViewModel())
 }

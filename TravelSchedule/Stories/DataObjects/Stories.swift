@@ -11,12 +11,4 @@ struct Stories: Identifiable, Hashable {
     let id = UUID()
     let previewImage: String
     let images: [String]
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    private static func ==(lhs: Stories, rhs: Stories) -> Bool {
-        lhs.id == rhs.id
-    }
 }

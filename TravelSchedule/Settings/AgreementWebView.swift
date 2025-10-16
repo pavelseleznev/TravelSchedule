@@ -1,5 +1,5 @@
 //
-//  WebAgreementView.swift
+//  AgreementWebView.swift
 //  TravelSchedule
 //
 //  Created by Pavel Seleznev on 10/2/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 import WebKit
 
-struct WebAgreementView: UIViewRepresentable {
+struct AgreementWebView: UIViewRepresentable {
     
     // MARK: - Property & Environment
     let url: URL

@@ -518,11 +518,11 @@ components:
           $ref: '#/components/schemas/Station'
         departure:
           type: string
-          #format: date-time
+          format: date-time
           description: Время отправления
         arrival:
           type: string
-          #format: date-time
+          format: date-time
           description: Время прибытия
         thread:
           $ref: '#/components/schemas/Thread'
@@ -531,6 +531,49 @@ components:
         duration:
           type: integer
           description: Длительность рейса в секундах
+        has_transfers:
+          type: boolean
+          description: Признак наличия пересадок по ходу рейса.
+        transfers:
+          type: array
+          description: Список пунктов пересадки (посёлки/города или станции)
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              short_title:
+                type: string
+              popular_title:
+                type: string
+              code:
+                type: string
+        details:
+          type: array
+          description: Детализация маршрута с участками и точкой пересадки
+          items:
+            type: object
+            properties:
+              is_transfer:
+                type: boolean
+                description: Признак элемента-пересадки
+              transfer_point:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  short_title:
+                    type: string
+                  popular_title:
+                    type: string
+                  code:
+                    type: string
+              thread:
+                $ref: '#/components/schemas/Thread'
     Pagination:
       type: object
       properties:
@@ -640,11 +683,11 @@ components:
           description: Дни, когда рейс не выполняется
         arrival:
           type: string
-          #format: date-time
+          format: date-time
           description: Время прибытия в формате ISO 8601
         departure:
           type: string
-          #format: date-time
+          format: date-time
           description: Время отправления в формате ISO 8601
         thread:
           $ref: '#/components/schemas/Thread'
@@ -733,10 +776,10 @@ components:
       properties:
         arrival:
           type: string
-          #format: date-time
+          format: date-time
         departure:
           type: string
-          #format: date-time
+          format: date-time
         stop_time:
           type: integer
           description: Продолжительность остановки в секундах

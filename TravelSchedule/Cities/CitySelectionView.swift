@@ -14,14 +14,10 @@ struct CitySelectionView: View {
     @Binding var selectedStation: RailwayStation?
     let isSelectingFrom: Bool
     @Binding var navigationPath: NavigationPath
-    @State private var searchCity = ""
-    @StateObject private var viewModel = CityViewModel()
-    @Environment(\.dismiss) private var dismiss
     
-    // MARK: - Computed Properties
-    private var filteredCities: [City] {
-        searchCity.isEmpty ? viewModel.cities : viewModel.cities.filter { $0.cityName.lowercased().contains(searchCity.lowercased()) }
-    }
+    @State private var searchCity = ""
+    @State private var viewModel = CityViewModel()
+    @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
     var body: some View {
@@ -57,45 +53,67 @@ struct CitySelectionView: View {
                 .accessibilityHint(Text("Введите название города"))
                 .accessibilityIdentifier("citySearchBar")
                 .padding(.bottom, 16)
-            
-            ScrollView {
-                if filteredCities.isEmpty {
-                    VStack {
-                        Spacer()
-                        Text("Город не найден")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundStyle(.blackDayNight)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 238)
-                            .accessibilityIdentifier("noCityFoundMessage")
-                        Spacer()
-                    }
-                    .frame(maxHeight: .infinity)
-                    .padding(.bottom, 200)
-                } else {
-                    LazyVStack {
-                        ForEach(filteredCities) { city in
-                            Button(action: {
-                                selectedCity = city
-                                navigationPath.append(Destination.stations(
-                                    city: city,
-                                    isSelectingFrom: isSelectingFrom))
-                            }) {
-                                CityRowView(city: city)
-                                    .foregroundStyle(.blackDayNight)
-                                    .accessibilityElement(children: .ignore)
-                                    .accessibilityLabel(Text(city.cityName))
-                                    .accessibilityHint(Text("Выбрать город"))
-                                    .accessibilityIdentifier("cityRow_\(city.cityName)")
+                .onChange(of: searchCity) { _, newValue in
+                    viewModel.lookUpCity(query: newValue)
+                }
+            if viewModel.isLoading {
+                ProgressView("Загрузка городов...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding()
+            } else if let errorMessage = viewModel.errorMessage {
+                VStack {
+                    Text("Ошибка")
+                        .font(.headline)
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding()
+            } else {
+                ScrollView {
+                    if viewModel.filteredCities.isEmpty {
+                        VStack {
+                            Spacer()
+                            Text("Город не найден")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundStyle(.blackDayNight)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, 238)
+                                .accessibilityIdentifier("noCityFoundMessage")
+                            Spacer()
+                        }
+                        .frame(maxHeight: .infinity)
+                        .padding(.bottom, 200)
+                    } else {
+                        LazyVStack {
+                            ForEach(viewModel.filteredCities) { city in
+                                Button(action: {
+                                    selectedCity = city
+                                    navigationPath.append(Destination.stations(
+                                        city: city,
+                                        isSelectingFrom: isSelectingFrom))
+                                }) {
+                                    CityRowView(city: city)
+                                        .foregroundStyle(.blackDayNight)
+                                        .accessibilityElement(children: .ignore)
+                                        .accessibilityLabel(Text(city.cityName))
+                                        .accessibilityHint(Text("Выбрать город"))
+                                        .accessibilityIdentifier("cityRow_\(city.cityName)")
+                                }
                             }
                         }
                     }
                 }
             }
-            .accessibilityIdentifier("cityListScrollView")
-            .toolbar(.hidden, for: .tabBar)
-            .navigationBarBackButtonHidden(true)
         }
+        .task {
+            await viewModel.loadAllCities()
+        }
+        .accessibilityIdentifier("cityListScrollView")
+        .toolbar(.hidden, for: .tabBar)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

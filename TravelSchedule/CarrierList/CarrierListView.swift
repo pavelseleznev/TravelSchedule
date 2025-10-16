@@ -5,17 +5,20 @@
 //  Created by Pavel Seleznev on 8/1/25.
 //
 
+
 import SwiftUI
 
 struct CarriersListView: View {
     
-    // MARK: - Environment, ViewModel, Properties & Binding
-    @ObservedObject var viewModel: CarrierRouteViewModel
+    // MARK: - Inputs
     let fromCity: City
     let fromStation: RailwayStation
     let toCity: City
     let toStation: RailwayStation
     @Binding var navigationPath: NavigationPath
+    
+    // MARK: - Environment / ViewModels
+    @Environment(CarrierListViewModel.self) private var routeViewModel
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
@@ -24,8 +27,8 @@ struct CarriersListView: View {
             ZStack {
                 HStack {
                     Button(action: {
-                        viewModel.selectedPeriods.removeAll()
-                        viewModel.showWithTransfer = nil
+                        routeViewModel.selectedPeriods.removeAll()
+                        routeViewModel.showWithTransfer = nil
                         dismiss()
                     }) {
                         Image(systemName: "chevron.left")
@@ -50,13 +53,28 @@ struct CarriersListView: View {
                             .foregroundStyle(.blackDayNight)
                             .accessibilityAddTraits(.isHeader)
                             .padding(.horizontal)
-                        if !viewModel.filteredRoutes.isEmpty {
+                        if routeViewModel.isLoading {
+                            ProgressView("Загрузка расписания...")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding()
+                        } else if let errorMessage = routeViewModel.errorMessage {
+                            VStack {
+                                Text("Ошибка")
+                                    .font(.headline)
+                                Text(errorMessage)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding()
+                        } else if !routeViewModel.filteredRoutes.isEmpty {
                             VStack(spacing: 0) {
-                                ForEach(viewModel.filteredRoutes) { route in
+                                ForEach(routeViewModel.filteredRoutes) { route in
                                     Button(action: {
                                         navigationPath.append(Destination.carrierDetails(route: route))
                                     }) {
-                                        CarriersRowView(route: route)
+                                        CarrierRowView(route: route)
                                             .padding(.horizontal)
                                             .padding(.vertical, 4)
                                     }
@@ -90,13 +108,12 @@ struct CarriersListView: View {
                             Text("Уточнить время")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundStyle(Color(.white))
-                            if !viewModel.selectedPeriods.isEmpty || viewModel.showWithTransfer != nil {
+                            if !routeViewModel.selectedPeriods.isEmpty || routeViewModel.showWithTransfer != nil {
                                 Circle()
                                     .fill(.redUniversal)
                                     .frame(width: 8, height: 8)
                                     .accessibilityHidden(true)
                             }
-                            
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 20)
@@ -107,23 +124,29 @@ struct CarriersListView: View {
                         .padding(.horizontal, 16)
                     }
                     .accessibilityLabel(Text("Уточнить время"))
-                    .accessibilityValue((!viewModel.selectedPeriods.isEmpty || viewModel.showWithTransfer != nil) ? Text("Фильтры применены") : Text("Фильтры не применены"))
+                    .accessibilityValue((!routeViewModel.selectedPeriods.isEmpty || routeViewModel.showWithTransfer != nil) ? Text("Фильтры применены") : Text("Фильтры не применены"))
                     .accessibilityHint(Text("Откроется экран фильтров"))
                     .navigationBarBackButtonHidden(true)
                     .toolbar(.hidden, for: .tabBar)
                 }
             }
         }
+        .task {
+            let fromCode = fromStation.stationCode ?? ""
+            let toCode = toStation.stationCode ?? ""
+            guard !fromCode.isEmpty && !toCode.isEmpty else { return }
+            await routeViewModel.loadSchedule(fromStation: fromCode, toStation: toCode)
+        }
     }
 }
 
 #Preview {
     CarriersListView(
-        viewModel: CarrierRouteViewModel(),
         fromCity: City(cityName: "Москва"),
         fromStation: RailwayStation(name: "Ярославский вокзал"),
         toCity: City(cityName: "Санкт-Петербург"),
         toStation: RailwayStation(name: "Балтийский вокзал"),
         navigationPath: .constant(NavigationPath())
     )
+    .environment(CarrierListViewModel())
 }

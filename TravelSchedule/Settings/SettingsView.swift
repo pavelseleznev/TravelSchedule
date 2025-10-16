@@ -9,27 +9,25 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    // MARK: - Binding
+    // MARK: - Properties
     @Binding var navigationPath: NavigationPath
-    
-    // MARK: - AppStorage
-    @AppStorage(SettingsKeys.Appearance.isDarkMode) private var isDarkMode = false
-    @AppStorage(SettingsKeys.Appearance.userHasSetDarkMode) private var userHasSetDarkMode = false
+    @Environment(SettingsViewModel.self) private var settings
     
     // MARK: - Body
     var body: some View {
+        @Bindable var model = settings
+        
         VStack(alignment: .leading, spacing: 16) {
-            Toggle("Тёмная тема", isOn: $isDarkMode)
+            Toggle("Тёмная тема", isOn: $model.isDarkMode)
+                .onChange(of: model.isDarkMode) { _, _ in model.userHasSetDarkMode = true }
                 .padding(.horizontal, 16)
-                .onChange(of: isDarkMode) {
-                    userHasSetDarkMode = true
-                }
                 .tint(Color.blueUniversal)
                 .accessibilityHint(Text("Переключает тёмную тему приложения"))
+                .accessibilityValue(model.isDarkMode ? "Включена" : "Выключена")
                 .accessibilityIdentifier("toggleDarkMode")
             
             Button(action: {
-                navigationPath.append(SettingsDestination.agreement(isDarkMode: isDarkMode))
+                navigationPath.append(SettingsDestination.agreement(isDarkMode: model.isDarkMode))
             }) {
                 HStack {
                     Text("Пользовательское соглашение")
@@ -70,7 +68,6 @@ struct SettingsView: View {
         .safeAreaInset(edge: .bottom) {
             Color.clear.frame(height: 24)
         }
-        .navigationTitle("Settings")
         .toolbar(.visible, for: .tabBar)
     }
 }

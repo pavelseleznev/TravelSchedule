@@ -15,7 +15,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "ScheduleActive@2x.png",
+      "filename" : "ScheduleIconActive@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -26,12 +26,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ScheduleActive@2x 1.png",
+      "filename" : "ScheduleIconActive@2x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ScheduleActive@3x.png",
+      "filename" : "ScheduleIconActive@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -42,7 +42,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ScheduleActive@3x 1.png",
+      "filename" : "ScheduleIconActive@3x 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -8,6 +8,7 @@
 import Network
 import Combine
 
+@MainActor
 final class NetworkMonitor: ObservableObject {
     static let shared = NetworkMonitor()
     
@@ -18,7 +19,7 @@ final class NetworkMonitor: ObservableObject {
     
     private init() {
         monitor.pathUpdateHandler = { [weak self] path in
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self?.isConnected = path.status == .satisfied
             }
         }

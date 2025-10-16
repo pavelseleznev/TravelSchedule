@@ -14,11 +14,11 @@ enum ResponseFormat: String {
     case json, xml
 }
 
-protocol CopyrightProtocol {
+protocol CopyrightProtocol: Sendable {
     func getCopyright(format: ResponseFormat) async throws -> Copyright
 }
 
-final class CopyrightService: CopyrightProtocol {
+actor CopyrightService: CopyrightProtocol {
     private let client: Client
     
     private let apikey: String

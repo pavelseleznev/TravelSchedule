@@ -9,6 +9,7 @@ import SwiftUI
 import WebKit
 
 // MARK: - Coordinator
+@MainActor
 final class Coordinator {
     private var lastScheme: ColorScheme?
     
