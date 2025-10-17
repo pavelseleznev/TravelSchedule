@@ -21,11 +21,6 @@ actor NetworkClient: Sendable {
         return instance
     }
     
-    /// Background-friendly wrapper that hops to the MainActor to access the shared instance.
-    static private func sharedAsync() async throws -> NetworkClient {
-        try await MainActor.run { try NetworkClient.shared() }
-    }
-    
     private let client: Client
     private let apiKey: String
     
@@ -94,6 +89,24 @@ actor NetworkClient: Sendable {
     
     func getCarrierInfo(code: String) async throws -> Components.Schemas.CarrierResponse {
         let response = try await client.getCarrierInfo(query: .init(apikey: apiKey, code: code))
+        return try response.ok.body.json
+    }
+    
+    func getStationSchedule(stationCode: String) async throws -> Components.Schemas.ScheduleResponse {
+        let response = try await client.getStationSchedule(
+            query: .init(apikey: apiKey, station: stationCode))
+        return try response.ok.body.json
+    }
+    
+    func getRouteStations(uid: String) async throws -> Components.Schemas.ThreadStationsResponse {
+        let response = try await client.getRouteStations(
+            query: .init(apikey: apiKey,uid: uid))
+        return try response.ok.body.json
+    }
+    
+    func getCopyright(format: ResponseFormat = .json) async throws -> Components.Schemas.Copyright {
+        let response = try await client.getCopyright(
+            query: .init(apikey: apiKey,format: format.rawValue))
         return try response.ok.body.json
     }
 }
