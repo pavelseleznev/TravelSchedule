@@ -12,8 +12,7 @@ struct AgreementView: View {
     // MARK: - Properties
     var isDarkMode: Bool
     private let agreementURL = URL(string: "https://yandex.ru/legal/practicum_offer")
-    @State private var showingError: Bool = false
-    @StateObject private var network = NetworkMonitor.shared
+    @State private var viewModel = AgreementViewModel()
     
     // MARK: - Binding & Environment
     @Binding var navigationPath: NavigationPath
@@ -45,11 +44,14 @@ struct AgreementView: View {
         }
         .padding(.horizontal, 8)
         .padding(.top, 11)
+        .task {
+            await viewModel.loadData()
+        }
         
         Group {
-            if network.isConnected {
+            if viewModel.isConnected {
                 if let url = agreementURL {
-                    WebAgreementView(url: url)
+                    AgreementWebView(url: url)
                         .edgesIgnoringSafeArea(.bottom)
                         .navigationBarBackButtonHidden(true)
                 }

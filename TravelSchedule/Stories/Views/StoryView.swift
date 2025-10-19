@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import Combine
+import Observation
 
 struct StoryView: View {
     
     // MARK: - ViewModel & Environment
-    @ObservedObject var viewModel: StoriesViewModel
+    @Bindable var viewModel: StoriesViewModel
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Body

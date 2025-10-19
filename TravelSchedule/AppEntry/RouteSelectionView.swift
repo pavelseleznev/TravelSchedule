@@ -9,46 +9,19 @@ import SwiftUI
 
 struct RouteSelectionView: View {
     
-    // MARK: - ViewModel & Bindings
-    @Binding var fromCity: City?
-    @Binding var fromStation: RailwayStation?
-    @Binding var toCity: City?
-    @Binding var toStation: RailwayStation?
-    @Binding var navigationPath: NavigationPath
-    @StateObject private var viewModel = StoriesViewModel()
-    @ObservedObject var carrierViewModel: CarrierRouteViewModel
-    
-    // MARK: - Computed Properties
-    private var isFindButtonEnabled: Bool {
-        fromStation != nil && toStation != nil
-    }
-    
-    private var fromText: String {
-        if let city = fromCity, let station = fromStation {
-            return "\(city.cityName) (\(station.name))"
-        } else if let city = fromCity {
-            return city.cityName
-        }
-        return "Откуда"
-    }
-    
-    private var toText: String {
-        if let city = toCity, let station = toStation {
-            return "\(city.cityName) (\(station.name))"
-        } else if let city = toCity {
-            return city.cityName
-        }
-        return "Куда"
-    }
+    // MARK: - ViewModels
+    @Environment(RouteSelectionViewModel.self) private var routeSelectionViewModel
+    @Environment(CarrierListViewModel.self) private var carrierViewModel
+    @State private var storiesViewModel = StoriesViewModel()
     
     // MARK: - Body
     var body: some View {
         VStack(spacing: 44) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 12) {
-                    ForEach(viewModel.story) { story in
+                    ForEach(storiesViewModel.story) { story in
                         StoriesCell(stories: story)
-                            .environmentObject(viewModel)
+                            .environment(storiesViewModel)
                     }
                 }
             }
@@ -66,10 +39,10 @@ struct RouteSelectionView: View {
                     HStack(spacing: 0) {
                         VStack(alignment: .leading, spacing: 0) {
                             Button(action: {
-                                navigationPath.append(Destination.cities(isSelectingFrom: true))
+                                routeSelectionViewModel.navigationPath.append(Destination.cities(isSelectingFrom: true))
                             }) {
-                                Text(fromText)
-                                    .foregroundStyle(fromCity == nil ? .grayUniversal : .blackUniversal)
+                                Text(routeSelectionViewModel.fromText)
+                                    .foregroundStyle(routeSelectionViewModel.fromCity == nil ? .grayUniversal : .blackUniversal)
                                     .padding(.vertical, 14)
                                     .padding(.horizontal, 16)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -80,10 +53,10 @@ struct RouteSelectionView: View {
                             .accessibilityIdentifier("fromCityButton")
                             
                             Button(action: {
-                                navigationPath.append(Destination.cities(isSelectingFrom: false))
+                                routeSelectionViewModel.navigationPath.append(Destination.cities(isSelectingFrom: false))
                             }) {
-                                Text(toText)
-                                    .foregroundStyle(toCity == nil ? .grayUniversal : .blackUniversal)
+                                Text(routeSelectionViewModel.toText)
+                                    .foregroundStyle(routeSelectionViewModel.toCity == nil ? .grayUniversal : .blackUniversal)
                                     .padding(.vertical, 14)
                                     .padding(.horizontal, 16)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -98,12 +71,7 @@ struct RouteSelectionView: View {
                         )
                         .padding(.horizontal, 16)
                         Button(action: {
-                            let tempCity = fromCity
-                            let tempStation = fromStation
-                            fromCity = toCity
-                            fromStation = toStation
-                            toCity = tempCity
-                            toStation = tempStation
+                            routeSelectionViewModel.swapCities()
                         }) {
                             Image("ChangeButton")
                                 .frame(width: 36, height: 36)
@@ -121,13 +89,13 @@ struct RouteSelectionView: View {
                 
                 .frame(height: 128)
                 .padding(.horizontal, 16)
-                if isFindButtonEnabled {
+                if routeSelectionViewModel.isFindButtonEnabled {
                     Button(action: {
-                        if let fromCity = fromCity,
-                           let fromStation = fromStation,
-                           let toCity = toCity,
-                           let toStation = toStation {
-                            navigationPath.append(Destination.carriers(
+                        if let fromCity = routeSelectionViewModel.fromCity,
+                           let fromStation = routeSelectionViewModel.fromStation,
+                           let toCity = routeSelectionViewModel.toCity,
+                           let toStation = routeSelectionViewModel.toStation {
+                            routeSelectionViewModel.navigationPath.append(Destination.carriers(
                                 fromCity: fromCity,
                                 fromStation: fromStation,
                                 toCity: toCity,
@@ -154,8 +122,8 @@ struct RouteSelectionView: View {
                 .accessibilityHidden(true)
         }
         .padding(.top, 24)
-        .fullScreenCover(isPresented: $viewModel.showStoryView) {
-            StoryView(viewModel: viewModel)
+        .fullScreenCover(isPresented: $storiesViewModel.showStoryView) {
+            StoryView(viewModel: storiesViewModel)
         }
         .accessibilityIdentifier("routeSelectionContent")
         .navigationBarTitleDisplayMode(.inline)
@@ -165,11 +133,7 @@ struct RouteSelectionView: View {
 }
 
 #Preview {
-    RouteSelectionView(
-        fromCity: .constant(nil),
-        fromStation: .constant(nil),
-        toCity: .constant(nil),
-        toStation: .constant(nil),
-        navigationPath: .constant(NavigationPath()),
-        carrierViewModel: CarrierRouteViewModel())
+    RouteSelectionView()
+        .environment(RouteSelectionViewModel())
+        .environment(CarrierListViewModel())
 }

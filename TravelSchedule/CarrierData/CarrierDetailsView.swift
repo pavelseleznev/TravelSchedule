@@ -11,8 +11,8 @@ import SwiftUI
 struct CarrierDetailsView: View {
     
     // MARK: - Properties
-    let route: CarrierRoute
     @Binding var navigationPath: NavigationPath
+    @Environment(CarrierDetailsViewModel.self) private var carrierDetailsViewModel
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
@@ -80,23 +80,32 @@ private extension CarrierDetailsView {
     
     // MARK: Logo
     var carrierLogo: some View {
-        Image("RusRailwaysLogo")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 343, height: 104)
-            .padding(.top, 16)
+        AsyncImageView(
+            url: carrierDetailsViewModel.route.carrierImageURL,
+            placeholder: "train.side.front.car",
+            width: 343,
+            height: 104,
+            cornerRadius: 16,
+            fallbackSystemImageName: carrierDetailsViewModel.route.carrierImage
+        )
     }
     
     // MARK: Info Block
     var carrierInfoBlock: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("ОАО «\(route.carrierName)»")
+            Text("«\(carrierDetailsViewModel.route.carrierName)»")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.blackDayNight)
             
             VStack(alignment: .leading, spacing: 0) {
-                infoRow(title: "E-mail", value: route.email ?? "—", color: .blueUniversal)
-                infoRow(title: "Телефон", value: route.phone ?? "—", color: .blueUniversal)
+                infoRow(
+                    title: "E-mail",
+                    value: carrierDetailsViewModel.route.email ?? "—",
+                    color: .blueUniversal)
+                infoRow(
+                    title: String(localized: "carrier.phone"),
+                    value: carrierDetailsViewModel.route.phone ?? "—",
+                    color: .blueUniversal)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -118,20 +127,22 @@ private extension CarrierDetailsView {
     }
 }
 
-#Preview {
-    CarrierDetailsView(
-        route: CarrierRoute(
-            carrierName: "РЖД",
-            date: "17 января",
-            departureTime: "22:30",
-            arrivalTime: "08:15",
-            duration: "20 часов",
-            withTransfer: true,
-            carrierImage: "RusRailwaysBrandIcon",
-            note: "С пересадкой в Костроме",
-            email: "info@rzd.ru",
-            phone: "+7 800 775-00-00"
-        ),
-        navigationPath: .constant(NavigationPath())
+#Preview("Carrier Details") {
+    let mockRoute = CarrierRoute(
+        carrierName: "OAO РЖД",
+        date: "17 января",
+        departureTime: "22:30",
+        arrivalTime: "08:15",
+        duration: "20 часов",
+        withTransfer: true,
+        carrierImage: "train.side.front.car",
+        carrierImageURL: "https://yastat.net/s3/rasp/media/data/company/logo/112.png",
+        note: "С пересадкой в Костроме",
+        email: "i.lozgkina@yandex.ru",
+        phone: "+7 (904) 329-27-71"
     )
+    let vm = CarrierDetailsViewModel(route: mockRoute)
+    
+    return CarrierDetailsView(navigationPath: .constant(NavigationPath()))
+        .environment(vm)
 }

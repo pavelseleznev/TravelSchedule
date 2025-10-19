@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct CarrierRoute: Identifiable, Hashable {
+// MARK: - Model (Sendable conformance)
+struct CarrierRoute: Identifiable, Hashable, Sendable {
     let id = UUID()
     let carrierName: String
     let date: String
@@ -16,6 +17,7 @@ struct CarrierRoute: Identifiable, Hashable {
     let duration: String
     let withTransfer: Bool
     let carrierImage: String
+    let carrierImageURL: String?
     let note: String?
     let email: String?
     let phone: String?

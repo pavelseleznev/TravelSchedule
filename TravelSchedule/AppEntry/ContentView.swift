@@ -9,44 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     
-    // MARK: - State
-    @State private var selectedTabIndex = 0
-    @State private var fromCity: City?
-    @State private var fromStation: RailwayStation?
-    @State private var toCity: City?
-    @State private var toStation: RailwayStation?
-    @State private var hasFinishedSplash = false
-    @State private var navigationPath = NavigationPath()
-    @StateObject private var carrierViewModel = CarrierRouteViewModel()
-    
-    @AppStorage(SettingsKeys.Appearance.isDarkMode) private var isDarkMode = false
-    @AppStorage(SettingsKeys.Appearance.userHasSetDarkMode) private var userHasSetDarkMode = false
-    
-    private var effectiveColorScheme: ColorScheme? {
-        userHasSetDarkMode ? isDarkMode ? .dark : .light : nil
-    }
+    // MARK: - ViewModels
+    @State private var routeSelectionViewModel = RouteSelectionViewModel()
+    @State private var settingsViewModel = SettingsViewModel()
+    @State private var carrierViewModel = CarrierListViewModel()
+    @State private var filterViewModel = FilterViewModel()
     
     // MARK: - Body
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        NavigationStack(path: $routeSelectionViewModel.navigationPath) {
             ZStack(alignment: .top) {
-                TabView(selection: $selectedTabIndex) {
-                    RouteSelectionView(
-                        fromCity: $fromCity,
-                        fromStation: $fromStation,
-                        toCity: $toCity,
-                        toStation: $toStation,
-                        navigationPath: $navigationPath,
-                        carrierViewModel: carrierViewModel
-                    )
-                    .tabItem {
-                        Label("", image: selectedTabIndex == 0 ? "ScheduleActive" : "ScheduleNotActive").accessibilityLabel("Поиск расписания")
-                    }
-                    .tag(0)
-                    .accessibilityIdentifier("tab_schedule")
-                    SettingsView(navigationPath: $navigationPath)
+                TabView(selection: $routeSelectionViewModel.selectedTabIndex) {
+                    RouteSelectionView()
+                        .environment(routeSelectionViewModel)
+                        .environment(carrierViewModel)
                         .tabItem {
-                            Label("", image: selectedTabIndex == 1 ? "SettingsActive" : "SettingsNotActive").accessibilityLabel("Настройки")
+                            Label("", image: routeSelectionViewModel.selectedTabIndex == 0 ? "ScheduleIconActive" : "ScheduleIconNotActive").accessibilityLabel("Поиск расписания")
+                        }
+                        .tag(0)
+                        .accessibilityIdentifier("tab_schedule")
+                    SettingsView(navigationPath: $routeSelectionViewModel.navigationPath)
+                        .tabItem {
+                            Label("", image: routeSelectionViewModel.selectedTabIndex == 1 ? "SettingsActive" : "SettingsNotActive").accessibilityLabel("Настройки")
                         }
                         .tag(1)
                         .accessibilityIdentifier("tab_settings")
@@ -65,49 +49,51 @@ struct ContentView: View {
                 switch destination {
                 case .cities(let isSelectingFrom):
                     CitySelectionView(
-                        selectedCity: isSelectingFrom ? $fromCity : $toCity,
-                        selectedStation: isSelectingFrom ? $fromStation : $toStation,
+                        selectedCity: isSelectingFrom ? $routeSelectionViewModel.fromCity : $routeSelectionViewModel.toCity,
+                        selectedStation: isSelectingFrom ? $routeSelectionViewModel.fromStation : $routeSelectionViewModel.toStation,
                         isSelectingFrom: isSelectingFrom,
-                        navigationPath: $navigationPath
+                        navigationPath: $routeSelectionViewModel.navigationPath
                     )
                     .toolbar(.hidden, for: .tabBar)
                 case .stations(let city, let isSelectingFrom):
                     StationSelectionView(
                         selectedCity: city,
-                        selectedStation: isSelectingFrom ? $fromStation : $toStation,
-                        navigationPath: $navigationPath
+                        selectedStation: isSelectingFrom ? $routeSelectionViewModel.fromStation : $routeSelectionViewModel.toStation,
+                        navigationPath: $routeSelectionViewModel.navigationPath
                     )
                     .toolbar(.hidden, for: .tabBar)
                 case .carriers(let fromCity, let fromStation, let toCity, let toStation):
                     CarriersListView(
-                        viewModel: carrierViewModel,
                         fromCity: fromCity,
                         fromStation: fromStation,
                         toCity: toCity,
                         toStation: toStation,
-                        navigationPath: $navigationPath
+                        navigationPath: $routeSelectionViewModel.navigationPath
                     )
+                    .environment(carrierViewModel)
                     .toolbar(.hidden, for: .tabBar)
                 case .filters(let fromCity, let fromStation, let toCity, let toStation):
-                    FiltersView(
-                        viewModel: carrierViewModel,
+                    FilterView(
                         fromCity: fromCity,
                         fromStation: fromStation,
                         toCity: toCity,
                         toStation: toStation,
-                        navigationPath: $navigationPath
+                        navigationPath: $routeSelectionViewModel.navigationPath
                     )
+                    .environment(carrierViewModel)
+                    .environment(filterViewModel)
                     .toolbar(.hidden, for: .tabBar)
                 case .carrierDetails(let route):
-                    CarrierDetailsView(route: route, navigationPath: $navigationPath
+                    CarrierDetailsView(navigationPath: $routeSelectionViewModel.navigationPath
                     )
+                    .environment(CarrierDetailsViewModel(route: route))
                     .toolbar(.hidden, for: .tabBar)
                 }
             }
             .navigationDestination(for: SettingsDestination.self) { destination in
                 switch destination {
                 case .agreement(let isDarkMode):
-                    AgreementView(isDarkMode: isDarkMode, navigationPath: $navigationPath)
+                    AgreementView(isDarkMode: isDarkMode, navigationPath: $routeSelectionViewModel.navigationPath)
                         .toolbar(.hidden, for: .tabBar)
                 case .noInternet:
                     Text("No internet")
@@ -118,14 +104,15 @@ struct ContentView: View {
                 }
             }
         }
-        .preferredColorScheme(effectiveColorScheme)
+        .environment(settingsViewModel)
+        .preferredColorScheme(settingsViewModel.userHasSetDarkMode ? (settingsViewModel.isDarkMode ? .dark : .light) : nil)
         .overlay {
             SplashScreen()
-                .opacity(hasFinishedSplash ? 0 : 1)
+                .opacity(routeSelectionViewModel.hasFinishedSplash ? 0 : 1)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation { hasFinishedSplash = true }
+                withAnimation { routeSelectionViewModel.hasFinishedSplash = true }
             }
         }
     }

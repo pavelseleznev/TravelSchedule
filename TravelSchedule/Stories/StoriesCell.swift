@@ -13,7 +13,7 @@ struct StoriesCell: View {
     var stories: Stories
     private let imageHeight: Double = 140
     private let imageWidth: Double = 92
-    @EnvironmentObject private var viewModel: StoriesViewModel
+    @Environment(StoriesViewModel.self) private var viewModel
     
     // MARK: - Body
     var body: some View {
@@ -51,5 +51,5 @@ struct StoriesCell: View {
     StoriesCell(stories: Stories(
         previewImage: "ModernSentinelsPreview",
         images: ["ModernSentinelsBig"]))
-    .environmentObject(StoriesViewModel())
+    .environment(StoriesViewModel())
 }

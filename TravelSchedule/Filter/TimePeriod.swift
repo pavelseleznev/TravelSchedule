@@ -7,9 +7,18 @@
 
 import Foundation
 
-enum TimePeriod: String, CaseIterable, Hashable {
-    case morning = "Утро 06:00 - 12:00"
-    case day = "День 12:00 - 18:00"
-    case evening = "Вечер 18:00 - 00:00"
-    case night = "Ночь 00:00 - 06:00"
+enum TimePeriod: String, CaseIterable, Hashable, Sendable {
+    case morning
+    case day
+    case evening
+    case night
+    
+    var localized: String {
+        switch self {
+        case .morning: return String(localized: "timeperiod.morning")
+        case .day:     return String(localized: "timeperiod.day")
+        case .evening: return String(localized: "timeperiod.evening")
+        case .night:   return String(localized: "timeperiod.night")
+        }
+    }
 }
